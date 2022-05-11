@@ -5,27 +5,27 @@ apiVersion: machine.openshift.io/v1beta1
 kind: MachineSet
 metadata:
   labels:
-    machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-    machine.openshift.io/cluster-api-machine-role: workerocs
-    machine.openshift.io/cluster-api-machine-type: workerocs
-  name: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}a
+    machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+    machine.openshift.io/cluster-api-machine-role: worker
+    machine.openshift.io/cluster-api-machine-type: worker
+  name: {{ $.Values.dedicated.vsphere.clusterid }}-odf
   namespace: openshift-machine-api
   annotations:
     argocd.argoproj.io/sync-wave: '-1'
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-      machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}a
+      machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+      machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.vsphere.clusterid }}-odf
   template:
     metadata:
       creationTimestamp: null
       labels:
-        machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-        machine.openshift.io/cluster-api-machine-role: workerocs
-        machine.openshift.io/cluster-api-machine-type: workerocs
-        machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}a
+        machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
+        machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.vsphere.clusterid }}-odf
     spec:
       taints:
       - effect: NoSchedule
@@ -39,192 +39,28 @@ spec:
           node-role.kubernetes.io/infra: ""
       providerSpec:
         value:
-          ami:
-            id: {{ $.Values.dedicated.aws.coreosami }}
-          apiVersion: awsproviderconfig.openshift.io/v1beta1
-          blockDevices:
-          - ebs:
-              iops: 0
-              volumeSize: 120
-              volumeType: gp2
-          credentialsSecret:
-            name: aws-cloud-credentials
-          deviceIndex: 0
-          iamInstanceProfile:
-            id: {{ $.Values.dedicated.aws.clusterid }}-worker-profile
-          instanceType: m5.4xlarge
-          kind: AWSMachineProviderConfig
-          metadata:
-            creationTimestamp: null
-          placement:
-            availabilityZone: {{ $.Values.dedicated.aws.region }}a
-            region: {{ $.Values.dedicated.aws.region }}
-          publicIp: null
-          securityGroups:
-          - filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-worker-sg
-          subnet:
-            filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-private-{{ $.Values.dedicated.aws.region }}a
-          tags:
-          - name: kubernetes.io/cluster/{{ $.Values.dedicated.aws.clusterid }}
-            value: owned
+          numCoresPerSocket: 1
+          diskGiB: {{ $.Values.dedicated.vsphere.diskGiB }}
+          snapshot: ''
           userDataSecret:
             name: worker-user-data
----
-apiVersion: machine.openshift.io/v1beta1
-kind: MachineSet
-metadata:
-  labels:
-    machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-    machine.openshift.io/cluster-api-machine-role: workerocs
-    machine.openshift.io/cluster-api-machine-type: workerocs
-  name: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}b
-  namespace: openshift-machine-api
-  annotations:
-    argocd.argoproj.io/sync-wave: '-1'
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-      machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}b
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-        machine.openshift.io/cluster-api-machine-role: workerocs
-        machine.openshift.io/cluster-api-machine-type: workerocs
-        machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}b
-    spec:
-      taints:
-      - effect: NoSchedule
-        key: node.ocs.openshift.io/storage
-        value: "true"
-      metadata:
-        creationTimestamp: null
-        labels:
-          cluster.ocs.openshift.io/openshift-storage: ""
-          node-role.kubernetes.io/worker: ""
-          node-role.kubernetes.io/infra: ""
-      providerSpec:
-        value:
-          ami:
-            id: {{ $.Values.dedicated.aws.coreosami }}
-          apiVersion: awsproviderconfig.openshift.io/v1beta1
-          blockDevices:
-          - ebs:
-              iops: 0
-              volumeSize: 120
-              volumeType: gp2
+          memoryMiB: {{ $.Values.dedicated.vsphere.memoryMiB }}
           credentialsSecret:
-            name: aws-cloud-credentials
-          deviceIndex: 0
-          iamInstanceProfile:
-            id: {{ $.Values.dedicated.aws.clusterid }}-worker-profile
-          instanceType: m5.4xlarge
-          kind: AWSMachineProviderConfig
+            name: vsphere-cloud-credentials
+          network:
+            devices:
+              - networkName: {{ $.Values.dedicated.vsphere.networkName }}
           metadata:
             creationTimestamp: null
-          placement:
-            availabilityZone: {{ $.Values.dedicated.aws.region }}b
-            region: {{ $.Values.dedicated.aws.region }}
-          publicIp: null
-          securityGroups:
-          - filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-worker-sg
-          subnet:
-            filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-private-{{ $.Values.dedicated.aws.region }}b
-          tags:
-          - name: kubernetes.io/cluster/{{ $.Values.dedicated.aws.clusterid }}
-            value: owned
-          userDataSecret:
-            name: worker-user-data
----
-apiVersion: machine.openshift.io/v1beta1
-kind: MachineSet
-metadata:
-  labels:
-    machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-    machine.openshift.io/cluster-api-machine-role: workerocs
-    machine.openshift.io/cluster-api-machine-type: workerocs
-  name: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}c
-  namespace: openshift-machine-api
-  annotations:
-    argocd.argoproj.io/sync-wave: '-1'
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-      machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}c
-  template:
-    metadata:
-      creationTimestamp: null
-      labels:
-        machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.aws.clusterid }}
-        machine.openshift.io/cluster-api-machine-role: workerocs
-        machine.openshift.io/cluster-api-machine-type: workerocs
-        machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.aws.clusterid }}-workerocs-{{ $.Values.dedicated.aws.region }}c
-    spec:
-      taints:
-      - effect: NoSchedule
-        key: node.ocs.openshift.io/storage
-        value: "true"
-      metadata:
-        creationTimestamp: null
-        labels:
-          cluster.ocs.openshift.io/openshift-storage: ""
-          node-role.kubernetes.io/worker: ""
-          node-role.kubernetes.io/infra: ""
-      providerSpec:
-        value:
-          ami:
-            id: {{ $.Values.dedicated.aws.coreosami }}
-          apiVersion: awsproviderconfig.openshift.io/v1beta1
-          blockDevices:
-          - ebs:
-              iops: 0
-              volumeSize: 120
-              volumeType: gp2
-          credentialsSecret:
-            name: aws-cloud-credentials
-          deviceIndex: 0
-          iamInstanceProfile:
-            id: {{ $.Values.dedicated.aws.clusterid }}-worker-profile
-          instanceType: m5.4xlarge
-          kind: AWSMachineProviderConfig
-          metadata:
-            creationTimestamp: null
-          placement:
-            availabilityZone: {{ $.Values.dedicated.aws.region }}c
-            region: {{ $.Values.dedicated.aws.region }}
-          publicIp: null
-          securityGroups:
-          - filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-worker-sg
-          subnet:
-            filters:
-            - name: tag:Name
-              values:
-              - {{ $.Values.dedicated.aws.clusterid }}-private-{{ $.Values.dedicated.aws.region }}c
-          tags:
-          - name: kubernetes.io/cluster/{{ $.Values.dedicated.aws.clusterid }}
-            value: owned
-          userDataSecret:
-            name: worker-user-data
+          numCPUs: {{ $.Values.dedicated.vsphere.numCPUs }}
+          kind: VSphereMachineProviderSpec
+          workspace:
+            datacenter: {{ $.Values.dedicated.vsphere.datacenter }}
+            datastore: {{ $.Values.dedicated.vsphere.datastore }}
+            folder: {{ $.Values.dedicated.vsphere.folder }}
+            resourcePool: {{ $.Values.dedicated.vsphere.resourcePool }}
+            server: {{ $.Values.dedicated.vsphere.vcenter }}
+          template: {{ $.Values.dedicated.vsphere.clusterid }}-rhcos
 ---
 {{- end }}
 {{- end }}

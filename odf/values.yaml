@@ -61,12 +61,12 @@ odf:
 
 # If RGW enabled, RGW object store will be deployed in AWS
 rgw: 
-  enabled: false
+  enabled: true
 # Enable S3 RGW endpoint with SSL
   ssl: false
 # Failure domain for the RGW pools, by default zone, depeding on your deployment you may need to
 # change it to rack, zone or node.
-  failuredomain: zone
+  failuredomain: rack
 
 # If mcg enabled is set to False Nooba/Multicloud gateway will not be deployed.
 mcg:
@@ -78,15 +78,23 @@ cephtools:
 
 # If OCP Cluster is deployed in AWS and dedicated option enabled it will deploy 3 ODF workers(m5.4xlarge) using machinesets one per AZ, .
 dedicated: 
-  enabled: false
-  aws:
+  enabled: true
+  vsphere:
     #you can use $ oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].metadata.labels.machine\.openshift\.io/cluster-api-cluster}'
-    clusterid: 'cluster-tlhvx-wmzb6'
+    clusterid: 'ocnp2-wb9gs'
     #youn can use $oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].spec.template.spec.providerSpec.value.placement.region}' 
-    region: 'us-east-2'
+    #region: 'us-east-2'
     #you can use $oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].spec.template.spec.providerSpec.value.ami.id}'
-    coreosami: 'ami-03d9208319c96db0c'
-
+    #coreosami: 'ami-03d9208319c96db0c'
+    diskGiB: '120'
+    memoryMiB: '34816'
+    numCPUs: '14'
+    networkName: 'DSwitch01-VM Network'
+    datacenter: 'Home'
+    datastore: 'vsanDatastore'
+    folder: '/Home/vm/ocnp2-wb9gs'
+    resourcePool: '/Home/host/SDDC/Resources'
+    vcenter: '192.168.0.10'
 # Enable Flexible scaling.
 # flexibleScaling: false
 
@@ -101,6 +109,6 @@ osds:
 #Number of replicas for the device set configuration. Set to 3 by default.
 #  replicas: 3
 #Storage Class that will be used to provision the ODF OSDs. If using LSO set it to 'localblock'
-  scname: 'thin'
+  scname: 'thin-csi'
 #Size of Each PV that will be provisioned to be used by the OSDs.
   disksize: '512Gi'
