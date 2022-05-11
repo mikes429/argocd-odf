@@ -14,7 +14,7 @@ spec:
     erasureCoded:
       codingChunks: 0
       dataChunks: 0
-    failureDomain: {{ $.Values.rgw.failuredomain }}
+     : {{ $.Values.rgw.failuredomain }}
     replicated:
       size: {{ $.Values.osds.replicas }}
   gateway:

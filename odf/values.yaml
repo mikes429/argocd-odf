@@ -10,7 +10,7 @@ mcgstandalone:
   enabled: false
 # IF deploying MCG standalone the storage claas that will be used for the
 # Noobaa Database, and PV backing store on-premise.
-  scname: 'gp3-csi'
+  scname: 'thin-csi'
 
 odf:
 # ODF Version/Channel
