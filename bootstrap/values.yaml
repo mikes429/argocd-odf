@@ -11,11 +11,11 @@ apps:
     branch: main
     enabled: true
     path: odf/
-    autosync: false
+    autosync: true
     namespace: openshift-storage
   deploy-lso:
     branch: main
-    enabled: true
+    enabled: false
     path: lso/
     autosync: false
     namespace: openshift-local-storage
