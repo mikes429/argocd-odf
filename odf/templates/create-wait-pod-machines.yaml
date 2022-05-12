@@ -19,7 +19,7 @@ spec:
               set -x
               echo "Checking if the Machines from the ODF Machineset have finished deploying"
               sleep 60
-              while [ $(oc get machines -n openshift-machine-api | grep -E '(workerocs.*Running)' | wc -l) -lt 3 ]
+              while [ $(oc get machines -n openshift-machine-api | grep -E '(odf.*Running)' | wc -l) -lt 3 ]
               do
                   echo 'machines not ready'
                   sleep 10
