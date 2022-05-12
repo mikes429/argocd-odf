@@ -92,7 +92,7 @@ dedicated:
     networkName: 'DSwitch01-VM Network'
     datacenter: 'Home'
     datastore: 'vsanDatastore'
-    folder: '/Home/vm/ocnp2-wb9gs'
+    folder: '/Home/vm/ocnp2-blqph'
     resourcePool: '/Home/host/SDDC/Resources'
     vcenter: '192.168.0.10'
 # Enable Flexible scaling.
