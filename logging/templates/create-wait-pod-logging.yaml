@@ -21,7 +21,7 @@ spec:
               sleep 15
               for i in 'name=cluster-logging-operator'
               do
-                oc wait --for condition=Ready pod  --selector=${i} -n cluster-logging-operator --timeout=180s
+                oc wait --for condition=Ready pod  --selector=${i} -n openshift-logging --timeout=180s
                 sleep 5
               done
               echo "Cluster Logging operator has been deployed"
