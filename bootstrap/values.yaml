@@ -19,9 +19,28 @@ apps:
     path: lso/
     autosync: false
     namespace: openshift-local-storage
+apps2:
+  deploy-elasticsearch:
+    branch: main
+    enabled: true
+    path: elasticsearch/
+    autosync: true
+    namespace: openshift-operators-redhat
+  deploy-logging:
+    branch: main
+    enabled: true
+    path: logging/
+    autosync: true
+    namespace: openshift-logging
 namespaces:
   - openshift-local-storage
   - openshift-storage
   - openshift-machine-api
   - openshift-operators
   - openshift-gitops
+logging:
+  namespaces:
+    - openshift-operators-redhat
+    - openshift-logging
+    - openshift-machine-api
+    - openshift-gitops
