@@ -32,6 +32,13 @@ apps2:
     path: logging/
     autosync: true
     namespace: openshift-logging
+apps3:
+  deploy-quay:
+    branch: main
+    enabled: true
+    path: quay/
+    autosync: true
+    namespace: openshift-operators
 namespaces:
   - openshift-local-storage
   - openshift-storage
@@ -42,5 +49,10 @@ logging:
   namespaces:
     - openshift-operators-redhat
     - openshift-logging
+    - openshift-machine-api
+    - openshift-gitops
+quay:
+    namespaces:
+    - openshift-operators
     - openshift-machine-api
     - openshift-gitops
