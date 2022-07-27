@@ -8,6 +8,23 @@
 logging:
 # LSO version Channel
   channel: 'stable'
+  application:
+    retention: '7d'
+  infra:
+    retention: '7d'
+  audit:
+    retention: '7d'
+  elasticsearch:
+    replicas: '3'
+    storageclass: 'ocs-storagecluster-ceph-rbd' 
+    storagesize: '200G'
+    limits:
+      memory: '16Gi'
+    requests:
+      memory: '16Gi'
+    redundancy: 'SingleRedundancy'
+  kibana:
+    replicas: '3'
 # If OCP Cluster is deployed in AWS and dedicated option enabled it will deploy 3 ODF workers(m5.4xlarge) using machinesets one per AZ, .
 dedicated:
   enabled: true

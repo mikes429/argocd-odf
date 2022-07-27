@@ -10,7 +10,7 @@ metadata:
   name: {{ $.Values.dedicated.vsphere.clusterid }}-efk
   namespace: openshift-machine-api
   annotations:
-    argocd.argoproj.io/sync-wave: '-1'
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   replicas: 3
   selector:
