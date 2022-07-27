@@ -1,0 +1,63 @@
+{{- if $.Values.dedicated.enabled }}
+---
+apiVersion: machine.openshift.io/v1beta1
+kind: MachineSet
+metadata:
+  labels:
+    machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+    machine.openshift.io/cluster-api-machine-role: worker
+    machine.openshift.io/cluster-api-machine-type: worker
+  name: {{ $.Values.dedicated.vsphere.clusterid }}-efk
+  namespace: openshift-machine-api
+  annotations:
+    argocd.argoproj.io/sync-wave: '-1'
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+      machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.vsphere.clusterid }}-efk
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
+        machine.openshift.io/cluster-api-machine-role: worker
+        machine.openshift.io/cluster-api-machine-type: worker
+        machine.openshift.io/cluster-api-machineset: {{ $.Values.dedicated.vsphere.clusterid }}-efk
+    spec:
+      taints:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/infra
+        value: efk
+      metadata:
+        creationTimestamp: null
+        labels:
+          node-role.kubernetes.io/worker: ""
+          node-role.kubernetes.io/infra: ""
+      providerSpec:
+        value:
+          numCoresPerSocket: 1
+          diskGiB: {{ $.Values.dedicated.vsphere.diskGiB }}
+          snapshot: ''
+          userDataSecret:
+            name: worker-user-data
+          memoryMiB: {{ $.Values.dedicated.vsphere.memoryMiB }}
+          credentialsSecret:
+            name: vsphere-cloud-credentials
+          network:
+            devices:
+              - networkName: {{ $.Values.dedicated.vsphere.networkName }}
+          metadata:
+            creationTimestamp: null
+          numCPUs: {{ $.Values.dedicated.vsphere.numCPUs }}
+          kind: VSphereMachineProviderSpec
+          workspace:
+            datacenter: {{ $.Values.dedicated.vsphere.datacenter }}
+            datastore: {{ $.Values.dedicated.vsphere.datastore }}
+            folder: {{ $.Values.dedicated.vsphere.folder }}
+            resourcePool: {{ $.Values.dedicated.vsphere.resourcePool }}
+            server: {{ $.Values.dedicated.vsphere.vcenter }}
+          template: {{ $.Values.dedicated.vsphere.clusterid }}-rhcos
+---
+{{- end }}

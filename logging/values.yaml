@@ -8,4 +8,18 @@
 logging:
 # LSO version Channel
   channel: 'stable'
-
+# If OCP Cluster is deployed in AWS and dedicated option enabled it will deploy 3 ODF workers(m5.4xlarge) using machinesets one per AZ, .
+dedicated:
+  enabled: true
+  vsphere:
+    #you can use $ oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].metadata.labels.machine\.openshift\.io/cluster-api-cluster}'
+    clusterid: 'ocnp2-mwdx5'
+    diskGiB: '120'
+    memoryMiB: '32768'
+    numCPUs: '8'
+    networkName: 'DSwitch01-VM Network'
+    datacenter: 'Home'
+    datastore: 'vsanDatastore'
+    folder: '/Home/vm/ocnp2-mwdx5'
+    resourcePool: '/Home/host/SDDC/Resources'
+    vcenter: '192.168.0.10'
