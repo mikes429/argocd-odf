@@ -53,6 +53,7 @@ logging:
     - openshift-gitops
 quay:
     namespaces:
+    - openshift-operators
     - quay-enterprise
     - openshift-machine-api
     - openshift-gitops
