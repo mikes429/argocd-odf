@@ -3,7 +3,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: quay
-  namespace: quay-enterprise
 spec:
   description: Quay Registry
   sourceRepos:
