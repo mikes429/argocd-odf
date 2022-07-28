@@ -11,7 +11,7 @@ apps:
     branch: main
     enabled: true
     path: odf/
-    autosync: true
+    autosync: false
     namespace: openshift-storage
   deploy-lso:
     branch: main
@@ -24,13 +24,13 @@ apps2:
     branch: main
     enabled: true
     path: elasticsearch/
-    autosync: true
+    autosync: false
     namespace: openshift-operators-redhat
   deploy-logging:
     branch: main
     enabled: true
     path: logging/
-    autosync: true
+    autosync: false
     namespace: openshift-logging
 apps3:
   deploy-quay:
@@ -38,7 +38,7 @@ apps3:
     enabled: true
     path: quay/
     autosync: true
-    namespace: openshift-operators
+    namespace: quay-enterprise
 namespaces:
   - openshift-local-storage
   - openshift-storage
@@ -53,6 +53,6 @@ logging:
     - openshift-gitops
 quay:
     namespaces:
-    - openshift-operators
+    - quay-enterprise
     - openshift-machine-api
     - openshift-gitops
