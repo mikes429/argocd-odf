@@ -59,8 +59,14 @@ logging:
     - openshift-machine-api
     - openshift-gitops
 quay:
-    namespaces:
+  namespaces:
     - openshift-operators
     - quay-enterprise
+    - openshift-machine-api
+    - openshift-gitops
+acs:
+    namespaces:
+    - openshift-operators
+    - stackrox
     - openshift-machine-api
     - openshift-gitops
