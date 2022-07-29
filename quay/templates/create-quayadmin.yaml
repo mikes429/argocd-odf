@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-quayadmin
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+    compare-options: IgnoreExtraneous
+spec:
+  template:
+    spec:
+      containers:
+      - name: wait-pod
+        command:
+            - /bin/bash
+            - -c
+            - |
+              set -x
+              echo "Create quayadmin user"
+              curl -X POST -k https://registry-quay-quay-enterprise.apps.ocnp2.bnet.luxds.net/api/v1/user/initialize --header 'Content-Type: application/json' --data '{ "username": "quayadmin", "password":"quaypass123", "email": "quayadmin@example.com", "access_token": true}'
+              echo "ODF Machine worker nodes have finished the deployment" 
+        image: registry.redhat.io/openshift4/ose-cli:v4.10
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 30
