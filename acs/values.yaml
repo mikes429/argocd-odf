@@ -1,0 +1,10 @@
+##
+# LSO Chart values
+##
+#
+
+#Nodes that have the label cluster.ocs.openshift.io/openshift-storage='' will
+#be used to discover local attach devices for LSO to use
+acs:
+# LSO version Channel
+  channel: 'latest'

@@ -39,6 +39,13 @@ apps3:
     path: quay/
     autosync: true
     namespace: quay-enterprise
+apps4:
+  deploy-acs:
+    branch: main
+    enabled: true
+    path: acs/
+    autosync: true
+    namespace: openshift-gitops
 namespaces:
   - openshift-local-storage
   - openshift-storage
