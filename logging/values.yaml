@@ -42,6 +42,6 @@ dedicated:
     networkName: 'DSwitch01-VM Network'
     datacenter: 'Home'
     datastore: 'vsanDatastore'
-    folder: '/Home/vm/ocnp2-6px5m'
+    folder: '/Home/vm/openshift'
     resourcePool: '/Home/host/SDDC/Resources'
     vcenter: '192.168.0.10'
