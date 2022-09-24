@@ -37,14 +37,14 @@ apps3:
     branch: main
     enabled: true
     path: quay/
-    autosync: true
+    autosync: false
     namespace: quay-enterprise
 apps4:
   deploy-acs:
     branch: main
     enabled: true
     path: acs/
-    autosync: true
+    autosync: false
     namespace: openshift-gitops
 namespaces:
   - openshift-local-storage
