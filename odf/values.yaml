@@ -81,7 +81,7 @@ dedicated:
   enabled: true
   vsphere:
     #you can use $ oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].metadata.labels.machine\.openshift\.io/cluster-api-cluster}'
-    clusterid: 'ocnp2-mwdx5'
+    clusterid: 'ocnp2-6px5m'
     #youn can use $oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].spec.template.spec.providerSpec.value.placement.region}' 
     #region: 'us-east-2'
     #you can use $oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].spec.template.spec.providerSpec.value.ami.id}'
@@ -92,7 +92,7 @@ dedicated:
     networkName: 'DSwitch01-VM Network'
     datacenter: 'Home'
     datastore: 'vsanDatastore'
-    folder: '/Home/vm/ocnp2-mwdx5'
+    folder: '/Home/vm/ocnp2-6px5m'
     resourcePool: '/Home/host/SDDC/Resources'
     vcenter: '192.168.0.10'
 # Enable Flexible scaling.
