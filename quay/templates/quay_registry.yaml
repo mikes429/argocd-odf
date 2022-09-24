@@ -7,6 +7,7 @@ metadata:
   namespace: quay-enterprise
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   configBundleSecret: init-config-bundle-secret
   components:
