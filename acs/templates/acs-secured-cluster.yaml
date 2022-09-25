@@ -14,7 +14,7 @@ spec:
     listenOnUpdates: false
   auditLogs:
     collection: Auto
-  clusterName: 
+  clusterName: OCNP2
   perNode:
     collector:
       collection: KernelModule
