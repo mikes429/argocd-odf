@@ -22,7 +22,7 @@ logging:
   elasticsearch:
     replicas: '3'
     storageclass: 'ocs-storagecluster-ceph-rbd' 
-    storagesize: '200G'
+    storagesize: '100G'
     limits:
       memory: '16Gi'
     requests:
