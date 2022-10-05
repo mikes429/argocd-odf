@@ -1,7 +1,7 @@
 resources:
-- namespace.yaml
+- acs_namespace.yaml
 - acs-central.yaml
-- argocd-rbac.yaml
+- acs-argocd-rbac.yaml
 - acs-central-wait-finish-job.yaml
 - init-bundle-setup-job.yaml
 - secured-cluster.yaml
