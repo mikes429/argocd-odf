@@ -13,7 +13,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: '-1'
 spec:
-  replicas: 4
+  replicas: 3
   selector:
     matchLabels:
       machine.openshift.io/cluster-api-cluster: {{ $.Values.dedicated.vsphere.clusterid }}
